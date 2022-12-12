@@ -10,9 +10,10 @@ import (
 //SetupRouter ... Configure routes
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowAllOrigins = true
-	grp1 := router.Group("/customer-api")
+
+	router.Use(cors.Default())
+
+	grp1 := router.Group("/api")
 	{
 		grp1.GET("customer", Controllers.GetCustomers)
 		grp1.POST("customer", Controllers.CreateCustomer)
@@ -20,6 +21,6 @@ func SetupRouter() *gin.Engine {
 		grp1.PUT("customer/:id", Controllers.UpdateCustomer)
 		grp1.DELETE("customer/:id", Controllers.DeleteCustomer)
 	}
-	router.Use(cors.New(corsConfig))
+
 	return router
 }
